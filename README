@@ -2,7 +2,7 @@ NAME
     Net::WOT - Access Web of Trust (WOT) API
 
 VERSION
-    version 0.01
+    version 0.02
 
 SYNOPSIS
     This module provides an interface to *Web of Trust*'s API.
@@ -21,13 +21,102 @@ EXPORT
     Fully object oriented, nothing is exported.
 
 ATTRIBUTES
-    Will document soon.
+    These are attributes that can be set during the initialization of the
+    WOT object. The syntax is:
+
+        my $wot = Net::WOT->new(
+            attr1 => 'value1',
+            attr2 => 'value2',
+        );
+
+  api_base_url
+    The basic url for the WOT API. Default: api.mywot.com.
+
+  api_path
+    The path for the WOT API request. Default: public_query2.
+
+  version
+    Version of the WOT API. Default: 0.4.
+
+    These are subroutines you probably don't want to change but can still
+    read from.
+
+    Note: Changing these might compromise the integrity of your information,
+    consider them as read-only.
+
+  trustworthiness_score
+    The trustworthiness score.
+
+  trustworthiness_confidence
+    The trustworthiness confidence.
+
+  trustworthiness_description
+    The trustworthiness description.
+
+  vendor_reliability_score
+    The vendor reliability score.
+
+  vendor_reliability_confidence
+    The vendor reliability confidence.
+
+  vendor_reliability_description
+    The vendor reliability description.
+
+  privacy_score
+    The privacy score.
+
+  privacy_confidence
+    The privacy confidence.
+
+  privacy_description
+    The privacy description.
+
+  child_safety_score
+    The child safety score.
+
+  child_safety_confidence
+    The child safety confidence.
+
+  child_safety_description
+    The child safety description.
 
 SUBROUTINES/METHODS
   get_reputation
     Get reputation.
 
-    Will document the rest soon.
+  ua_get
+    This is a shorthand to reach an internal useragent *get* command. Why
+    would you want it? Who knows? It's there.
+
+  get_component_name
+    Retrieves a component name from the index number of it. For example:
+
+        my $name = $wot->get_component_name(2);
+        # $name = 'privacy'
+
+  get_all_component_names
+    Returns a list of all component names.
+
+  get_reputation_description
+    Retrieves a reputation description from a certain level threshold. For
+    example:
+
+        my $threshold   = 60;
+        my $description = $wot->get_reputation_description;
+
+        # $description = 'good'
+
+  get_reputation_levels
+    Returns a list of all reputation levels.
+
+  get_confidence_level
+    Retrieves a confidence level from a certain threshold. For example:
+
+        my $confidence_level = $wot->get_confidence_level(12);
+        # $confidence_level = '2'
+
+  get_all_confidence_levels
+    Returns a list of all confidence levels.
 
 AUTHOR
     Sawyer X, "<xsawyerx at cpan.org>"

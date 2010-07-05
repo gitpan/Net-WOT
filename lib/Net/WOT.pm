@@ -1,4 +1,7 @@
 package Net::WOT;
+BEGIN {
+  $Net::WOT::VERSION = '0.02';
+}
 # ABSTRACT: Access Web of Trust (WOT) API
 
 use Carp;
@@ -88,15 +91,12 @@ has confidence_levels => (
     },
 );
 
-has maximum_confidence_level => ( is => 'ro', isa => 'Int', default => 5 );
-
 # automatically create all reputation component attributes
 foreach my $comp ( qw/
         trustworthiness
         vendor_reliability
         privacy
         child_safety
-        reputation
     / ) {
     foreach my $item ( qw/ score confidence / ) {
         my $attr_name = "${comp}_$item";
@@ -220,7 +220,7 @@ Net::WOT - Access Web of Trust (WOT) API
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
@@ -242,7 +242,78 @@ Fully object oriented, nothing is exported.
 
 =head1 ATTRIBUTES
 
-Will document soon.
+These are attributes that can be set during the initialization of the WOT
+object. The syntax is:
+
+    my $wot = Net::WOT->new(
+        attr1 => 'value1',
+        attr2 => 'value2',
+    );
+
+=head2 api_base_url
+
+The basic url for the WOT API. Default: B<api.mywot.com>.
+
+=head2 api_path
+
+The path for the WOT API request. Default: B<public_query2>.
+
+=head2 version
+
+Version of the WOT API. Default: B<0.4>.
+
+These are subroutines you probably don't want to change but can still read from.
+
+B<Note:> Changing these might compromise the integrity of your information,
+consider them as read-only.
+
+=head2 trustworthiness_score
+
+The trustworthiness score.
+
+=head2 trustworthiness_confidence
+
+The trustworthiness confidence.
+
+=head2 trustworthiness_description
+
+The trustworthiness description.
+
+=head2 vendor_reliability_score
+
+The vendor reliability score.
+
+=head2 vendor_reliability_confidence
+
+The vendor reliability confidence.
+
+=head2 vendor_reliability_description
+
+The vendor reliability description.
+
+=head2 privacy_score
+
+The privacy score.
+
+=head2 privacy_confidence
+
+The privacy confidence.
+
+=head2 privacy_description
+
+The privacy description.
+
+=head2 child_safety_score
+
+The child safety score.
+
+=head2 child_safety_confidence
+
+The child safety confidence.
+
+=head2 child_safety_description
+
+The child safety description.
 
 =head1 SUBROUTINES/METHODS
 
@@ -250,7 +321,45 @@ Will document soon.
 
 Get reputation.
 
-Will document the rest soon.
+=head2 ua_get
+
+This is a shorthand to reach an internal useragent I<get> command. Why would you
+want it? Who knows? It's there.
+
+=head2 get_component_name
+
+Retrieves a component name from the index number of it. For example:
+
+    my $name = $wot->get_component_name(2);
+    # $name = 'privacy'
+
+=head2 get_all_component_names
+
+Returns a list of all component names.
+
+=head2 get_reputation_description
+
+Retrieves a reputation description from a certain level threshold. For example:
+
+    my $threshold   = 60;
+    my $description = $wot->get_reputation_description;
+
+    # $description = 'good'
+
+=head2 get_reputation_levels
+
+Returns a list of all reputation levels.
+
+=head2 get_confidence_level
+
+Retrieves a confidence level from a certain threshold. For example:
+
+    my $confidence_level = $wot->get_confidence_level(12);
+    # $confidence_level = '2'
+
+=head2 get_all_confidence_levels
+
+Returns a list of all confidence levels.
 
 =head1 AUTHOR
 
